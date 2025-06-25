@@ -1,5 +1,5 @@
 {
-  "name": "Collaby-Notes",
+  "name": "collaby-notes",
   "private": true,
   "scripts": {
     "build": "turbo run build",
