@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 
 
 export default function Home() {
@@ -5,6 +6,7 @@ export default function Home() {
     <div>
         <div className="bg-red-500 text-white-900 text-center p-4 sm:p-6 lg:p-8">
           <h1>Welcome to Turborepo!</h1>
+          <Button>Hello</Button>
         </div>
     </div>
   );
