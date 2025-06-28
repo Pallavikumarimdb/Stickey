@@ -58,12 +58,13 @@ export const authOptions: NextAuthOptions = {
       if (user && user.email) {
         token.id = user.id;
         token.email = user.email;
+        token.name = user.name;
       }
       if (!process.env.JWT_SECRET) {
         throw new Error("JWT_SECRET is required");
       }
       token.accessToken = jwt.sign(
-        { id: token.id, email: token.email },
+        { id: token.id, email: token.email, name: token.name,  },
         process.env.JWT_SECRET,
         { expiresIn: "10d" }
       );

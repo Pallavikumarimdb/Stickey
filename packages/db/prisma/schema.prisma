@@ -19,6 +19,46 @@ model User {
   email     String   @unique
   password  String
   name      String
+  image     String?
+
+  Project      Project[]
+  Shape     Shape[]
+  Bookmark    Bookmark[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  title      String
+  imageUrl   String
+  adminId   String
+  admin     User     @relation(fields: [adminId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Bookmark    Bookmark[]
+  Shape     Shape[]
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  projectId String
+  user      User     @relation(fields: [userId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, projectId])
+}
+
+
+model Shape {
+  id        String   @id @default(uuid())
+  message   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  projectId    String
+  Project      Project     @relation(fields: [projectId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
