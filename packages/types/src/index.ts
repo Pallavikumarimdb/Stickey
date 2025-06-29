@@ -27,15 +27,26 @@ export enum WsDataType {
   CLOSE_ROOM = "CLOSE_ROOM",
   JOIN = "JOIN",
   LEAVE = "LEAVE",
+  EXISTING_PARTICIPANTS = "EXISTING_PARTICIPANTS",
+  EXISTING_SHAPES = "EXISTING_SHAPES",
 }
+
+export type ProjectParticipants = {
+  userId: string;
+  userName: string;
+};
+
 
 export type WebSocketMessage = {
   type: WsDataType;
   userId: string;
   userName?: string;
   roomId: string;
-  message?: any;
+  message: string | null;
   timestamp?: string;
+  participants: ProjectParticipants[] | null;
   id?: string; // shape ID
   connectionId?: string;
+  isOwner?: boolean;
+  payload?: any;
 };
