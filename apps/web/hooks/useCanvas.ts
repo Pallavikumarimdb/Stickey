@@ -3,6 +3,10 @@
 import { useRef, useState } from "react";
 import { Stroke, Point } from "types/canvasTools";
 import { WebSocketMessage, WsDataType } from "@repo/types/types";
+import { getFromLocal, saveToLocal } from "lib/utils/localStorage";
+import debounce from "lodash.debounce";
+import { saveStrokeToDB } from "lib/strokes/strokes";
+
 
 interface UseCanvasProps {
   send: (msg: WebSocketMessage) => void;
@@ -11,6 +15,7 @@ interface UseCanvasProps {
   userName?: string;
   color?: string;
   width?: number;
+  isAuthenticated: boolean;
 }
 
 export function useCanvas(
@@ -22,10 +27,31 @@ export function useCanvas(
     userName = "",
     color = "#23ab2b",
     width = 2,
+    isAuthenticated,
   }: UseCanvasProps
 ) {
   const [isDrawing, setIsDrawing] = useState(false);
   const points = useRef<Point[]>([]);
+  const strokes = useRef<Stroke[]>([]);
+
+  const debouncedSaveToDB = debounce(async (roomId: string, stroke: Stroke) => {
+    try {
+      await saveStrokeToDB(roomId, stroke);
+    } catch (err) {
+      console.error("Failed to save stroke to DB", err);
+    }
+  }, 500);
+
+
+  const saveStroke = (stroke: Stroke) => {
+    strokes.current.push(stroke);
+    saveToLocal(roomId, stroke);
+
+    if (isAuthenticated) {
+      debouncedSaveToDB(roomId, stroke);
+    }
+  }
+
 
   const drawLine = (points: Point[], strokeColor: string, strokeWidth: number) => {
     const context = canvasRef.current?.getContext("2d");
@@ -46,6 +72,19 @@ export function useCanvas(
       }
     }
     context.stroke();
+  };
+
+  const redrawAll = () => {
+    const context = canvasRef.current?.getContext("2d");
+    if (!context) return;
+
+    context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+    const cached = getFromLocal(roomId);
+    for (const stroke of cached) {
+      drawLine(stroke.points, stroke.color, stroke.width);
+      strokes.current.push(stroke);
+    }
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -90,12 +129,13 @@ export function useCanvas(
       payload: stroke,
     };
 
-  try {
-    send(message);
-    console.log("message    --->  "+JSON.stringify(message));
-  } catch (error) {
-    console.error('Error sending message:', error);
-  }
+    try {
+      send(message);
+      console.log("message    --->  " + JSON.stringify(message));
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+    saveStroke(stroke);
     points.current = [];
   };
 
@@ -108,5 +148,6 @@ export function useCanvas(
     handleMouseMove,
     handleMouseUp,
     drawFromRemote,
+    redrawAll
   };
 }

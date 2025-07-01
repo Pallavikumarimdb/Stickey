@@ -8,10 +8,11 @@ interface CanvasProps {
   roomId: string;
   send: (msg: WebSocketMessage) => void;
   userId: string; 
+  isAuthenticated: boolean;
   drawFromRemoteRef?: React.RefObject<(stroke: any) => void>;
 }
 
-export const Canvas = ({ roomId, send, userId, drawFromRemoteRef  }: CanvasProps) => {
+export const Canvas = ({ roomId, send, userId, drawFromRemoteRef, isAuthenticated  }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null!);
 
   const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
@@ -34,13 +35,19 @@ export const Canvas = ({ roomId, send, userId, drawFromRemoteRef  }: CanvasProps
     handleMouseMove,
     handleMouseUp,
     drawFromRemote,
-  } = useCanvas(canvasRef, { send, roomId, userId });
+    redrawAll,
+  } = useCanvas(canvasRef, { send, roomId, userId, isAuthenticated  });
 
   useEffect(() => {
     if (drawFromRemoteRef) {
       drawFromRemoteRef.current = drawFromRemote;
     }
   }, [drawFromRemoteRef, drawFromRemote]);
+
+  useEffect(() => {
+    redrawAll();
+  }, [canvasSize]); 
+
 
   
 

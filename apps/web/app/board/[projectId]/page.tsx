@@ -1,7 +1,7 @@
 'use client';
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import {  useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useWebSocket } from "hooks/useSocket";
 import { useGuestToken } from "lib/utils/useGuestToken";
@@ -9,6 +9,8 @@ import { Canvas } from "@/canvas/Canvas";
 import { Toolbar } from "@/canvas/Toolbar";
 import { WebSocketMessage, WsDataType } from "@repo/types/types";
 import { InviteButton } from "@/(dashboard)/_components/invite-button";
+import { clearLocal } from "lib/utils/localStorage";
+import { fetchStrokesFromDB } from "lib/strokes/strokes";
 
 export default function ProjectPage() {
   const roomId = useParams().projectId as string;
@@ -19,7 +21,7 @@ export default function ProjectPage() {
   const [messages, setMessages] = useState<WebSocketMessage[]>([]);
   const [userName, setUserName] = useState("Guest");
 
-  const drawFromRemoteRef = useRef<(stroke: any) => void>(() => {});
+  const drawFromRemoteRef = useRef<(stroke: any) => void>(() => { });
 
   const isAuthLoaded = sessionStatus !== "loading" && isGuestLoaded;
   const isAuthenticated = sessionStatus === "authenticated";
@@ -46,6 +48,17 @@ export default function ProjectPage() {
     shouldConnect
   );
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchStrokesFromDB(roomId).then((strokes) => {
+        for (const stroke of strokes) {
+          drawFromRemoteRef.current?.(stroke);
+        }
+        clearLocal(roomId);
+      });
+    }
+  }, [roomId, isAuthenticated]);
+
   return (
     <>
       <div className="p-2 text-sm text-gray-600 flex justify-between items-center bg-gray-50 border-b">
@@ -68,6 +81,7 @@ export default function ProjectPage() {
         send={send}
         userId={userId}
         drawFromRemoteRef={drawFromRemoteRef}
+        isAuthenticated={isAuthenticated}
       />
       <Toolbar />
     </>
