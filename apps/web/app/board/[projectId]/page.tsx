@@ -11,10 +11,11 @@ import { WebSocketMessage, WsDataType } from "@repo/types/types";
 import { InviteButton } from "@/(dashboard)/_components/invite-button";
 import { clearLocal } from "lib/utils/localStorage";
 import { fetchStrokesFromDB } from "lib/strokes/strokes";
+import { ToolType } from "types/canvasTools";
 
 export default function ProjectPage() {
   const roomId = useParams().projectId as string;
-
+    const [tool, setTool] = useState<ToolType>("pencil");
   const { data: session, status: sessionStatus } = useSession();
   const { guestToken, guestId, isGuestLoaded } = useGuestToken();
 
@@ -48,27 +49,34 @@ export default function ProjectPage() {
     shouldConnect
   );
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchStrokesFromDB(roomId).then((strokes) => {
-        for (const stroke of strokes) {
-          drawFromRemoteRef.current?.(stroke);
-        }
-        clearLocal(roomId);
-      });
-    }
-  }, [roomId, isAuthenticated]);
+ useEffect(() => {
+  if (isAuthenticated) {
+    fetchStrokesFromDB(roomId).then((strokes) => {
+      if (!Array.isArray(strokes)) {
+        console.warn("Invalid strokes from DB", strokes);
+        return;
+      }
+
+      for (const stroke of strokes) {
+        drawFromRemoteRef.current?.(stroke);
+      }
+      clearLocal(roomId);
+    }).catch((err) => {
+      console.error("Failed to fetch strokes", err);
+    });
+  }
+}, [roomId, isAuthenticated]);
 
   return (
     <>
-      <div className="p-2 text-sm text-gray-600 flex justify-between items-center bg-gray-50 border-b">
+      <div className="p-2 text-sm text-gray-600 flex justify-between items-center">
         <div>
-          Room: <strong>{roomId}</strong>
+          <Toolbar tool={tool} setTool={setTool} />
         </div>
 
         <div className="flex items-center gap-4">
           <div>
-            You are: <strong>{userName}</strong>{" "}
+            You are: <strong>{session?.user?.name}</strong>{" "}
             {isOwner && <span className="text-blue-500">(Owner)</span>}
           </div>
           <InviteButton roomId={roomId} isOwner={isOwner} />
@@ -82,8 +90,8 @@ export default function ProjectPage() {
         userId={userId}
         drawFromRemoteRef={drawFromRemoteRef}
         isAuthenticated={isAuthenticated}
+        tool={tool}
       />
-      <Toolbar />
     </>
   );
 }

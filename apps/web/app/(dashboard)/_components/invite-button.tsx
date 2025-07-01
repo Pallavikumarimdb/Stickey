@@ -34,8 +34,8 @@ export const InviteButton = ({ roomId, isOwner }: InviteButtonProps) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">
-          <Plus className="h-4 w-4 mr-2" />
-          Invite members
+          <Plus className="h-4 w-4" />
+          Invite
         </Button>
       </DialogTrigger>
       <DialogContent className="p-6 bg-white rounded-md max-w-[500px]">

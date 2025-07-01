@@ -15,3 +15,17 @@ export function getFromLocal(roomId: string): Stroke[] {
 export function clearLocal(roomId: string) {
   localStorage.removeItem(`strokes:${roomId}`);
 }
+
+
+export const overwriteLocal = (roomId: string, strokes: Stroke[]) => {
+  try {
+    const key = `strokes:${roomId}`;
+    localStorage.removeItem(key);
+    localStorage.setItem(key, JSON.stringify(strokes));
+  } catch (e) {
+    console.error("error overwriting local strokes", e);
+  }
+};
+
+
+
