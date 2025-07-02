@@ -16,6 +16,7 @@ export const SignUpFormSchema = z.object({
 
 export enum WsDataType {
   CONNECTION_READY = "CONNECTION_READY",
+  SIGNAL = "SIGNAL",
   USER_JOINED = "USER_JOINED",
   USER_LEFT = "USER_LEFT",
   DRAW = "DRAW",
@@ -48,6 +49,7 @@ export type WebSocketMessage = {
   participants: ProjectParticipants[] | null;
   id?: string; // shape ID
   connectionId?: string;
+  targetUserId?: string;
   isOwner?: boolean;
   payload?: any;
 };

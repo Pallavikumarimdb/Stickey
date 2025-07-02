@@ -48,6 +48,8 @@ const roomMembers: Record<string, Set<string>> = {};
 const roomOwners: Record<string, string> = {};
 const roomStrokes: Record<string, WebSocketMessage[]> = {};
 const subscribedChannels = new Set<string>();
+const roomVideoEnabled: Record<string, boolean> = {}; 
+
 
 function broadcast(roomId: string, message: Message, exclude: string[] = []) {
   const members = Array.from(roomMembers[roomId] || []);
@@ -121,6 +123,14 @@ wss.on("connection", async (ws, req) => {
     },
   }));
 
+  if (roomVideoEnabled[roomId]) {
+    ws.send(JSON.stringify({
+      type: "VIDEO_STREAM_ENABLED",
+      roomId,
+    }));
+  }
+
+
   const redisChannel = `room:${roomId}`;
   if (!subscribedChannels.has(redisChannel)) {
     subscribedChannels.add(redisChannel);
@@ -137,10 +147,16 @@ wss.on("connection", async (ws, req) => {
       if (msg.type === "DRAW") {
         if (!msg.payload?.points?.length) {
           console.warn("Empty draw points received");
-        } else {
+        }
+        else {
           if (!roomStrokes[roomId]) roomStrokes[roomId] = [];
           roomStrokes[roomId].push(msg);
         }
+      }
+      else if (msg.type === "SIGNAL" && isOwner) {
+        roomVideoEnabled[roomId] = true;
+        broadcast(roomId, { type: "VIDEO_STREAM_ENABLED", roomId });
+        return;
       }
       publisher.publish(redisChannel, JSON.stringify(msg));
       broadcast(roomId, msg, [connectionId]);
@@ -156,6 +172,7 @@ wss.on("connection", async (ws, req) => {
       delete roomMembers[roomId];
       delete roomOwners[roomId];
       delete roomStrokes[roomId];
+      delete roomVideoEnabled[roomId];
       console.log(`[WS] Room ${roomId} cleared.`);
     }
   });
