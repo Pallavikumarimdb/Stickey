@@ -61,7 +61,13 @@ export const useWebSocket = (
           onMessage(data);
         }
 
-        
+        if (data.type === WsDataType.SIGNAL) {
+          window.dispatchEvent(new CustomEvent("websocket-message", { detail: data }));
+          return; //>>>>>>>>>>>>>>>>>>> Important: do NOT call onMessage again
+        }
+
+
+
       } catch (err) {
         console.error("[WebSocket] Failed to parse message:", err);
       }
@@ -84,24 +90,24 @@ export const useWebSocket = (
   }, [roomId, token, shouldConnect]);
 
   const send = (data: WebSocketMessage) => {
-    
-if (!wsRef.current) {
-    console.error('WebSocket ref is null');
-    return;
-  }
-  
-  if (wsRef.current.readyState === WebSocket.OPEN) {
-    const jsonString = JSON.stringify(data);
 
-    try {
-      wsRef.current.send(jsonString);
-    } catch (error) {
-      console.error(' Error sending to WebSocket:', error);
+    if (!wsRef.current) {
+      console.error('WebSocket ref is null');
+      return;
     }
-  } else {
-    console.warn('WebSocket not open. State:', wsRef.current.readyState);
-    console.warn('Connection status:', status);
-  }
-};
+
+    if (wsRef.current.readyState === WebSocket.OPEN) {
+      const jsonString = JSON.stringify(data);
+
+      try {
+        wsRef.current.send(jsonString);
+      } catch (error) {
+        console.error(' Error sending to WebSocket:', error);
+      }
+    } else {
+      console.warn('WebSocket not open. State:', wsRef.current.readyState);
+      console.warn('Connection status:', status);
+    }
+  };
   return { send, connectionId, isOwner, status };
 };

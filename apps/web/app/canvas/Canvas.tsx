@@ -56,23 +56,23 @@ export const Canvas = ({ roomId, send, userId, drawFromRemoteRef, isAuthenticate
 
   return (
     <div className="relative w-full h-full">
-  <canvas
-    ref={canvasRef}
-    width={canvasSize.width}
-    height={canvasSize.height}
-    className="absolute top-0 left-0 z-10"
-    onMouseDown={handleMouseDown}
-    onMouseMove={handleMouseMove}
-    onMouseUp={handleMouseUp}
-  />
+      <canvas
+        ref={canvasRef}
+        width={canvasSize.width}
+        height={canvasSize.height}
+        className="absolute top-0 left-0 z-10"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      />
 
-  <canvas
-    ref={previewRef}
-    width={canvasSize.width}
-    height={canvasSize.height}
-    className="absolute top-0 left-0 z-20 pointer-events-none"
-  />
-</div>
+      <canvas
+        ref={previewRef}
+        width={canvasSize.width}
+        height={canvasSize.height}
+        className="absolute top-0 left-0 z-20 pointer-events-none"
+      />
+    </div>
 
   );
 };
