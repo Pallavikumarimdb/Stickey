@@ -23,7 +23,7 @@ export const Navbar = () => {
           </Button>
         </div>
       </div>
-      {userId && <InviteButton />}
+      {/* {userId && <InviteButton />} */}
 
       <div className="flex items-center gap-x-4">
         <Button variant="outline">

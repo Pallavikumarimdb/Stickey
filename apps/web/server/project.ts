@@ -5,6 +5,7 @@ import z from "zod";
 import { getServerSession } from 'next-auth';
 import { authOptions } from 'lib/auth';
 import { cookies } from 'next/headers';
+import { Stroke } from "types/canvasTools";
 
 
 
@@ -251,3 +252,4 @@ export async function isBookmarked({
 
   return !!bookmark;
 }
+

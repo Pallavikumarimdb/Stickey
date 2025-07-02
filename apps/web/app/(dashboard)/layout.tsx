@@ -1,7 +1,7 @@
+
 import { Navbar } from "./_components/navbar";
 import { ProjectSidebar } from "./_components/project-sidebar";
 import Sidebar from "./_components/sidebar";
-import { Providers } from "./providers";
 
 interface DashBoardLayoutProps {
     children?: React.ReactNode;
@@ -9,7 +9,6 @@ interface DashBoardLayoutProps {
 
 const DashBoardLayout = ({ children }: DashBoardLayoutProps) => {
     return (
-        <Providers>
         <main className="h-full">
             <Sidebar />
             <div className="pl-[60px] h-full">
@@ -23,7 +22,6 @@ const DashBoardLayout = ({ children }: DashBoardLayoutProps) => {
                 </div>
             </div>
         </main>
-        </Providers>
     );
 };
 

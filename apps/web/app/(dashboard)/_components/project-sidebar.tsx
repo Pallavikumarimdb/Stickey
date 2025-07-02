@@ -17,9 +17,9 @@ export const ProjectSidebar = () => {
     const searchParams = useSearchParams();
     const favorite = searchParams.get("favorites");
     return (
-        <div className="hidden lg:flex flex-col space-y-10 w-[206px] pl-5 pt-5 mr-5 bg-slate-200 rounded-md pr-4">
+        <div className="hidden lg:flex flex-col space-y-10 w-[206px] pl-5 pt-2 mr-5 bg-slate-200 rounded-md pr-4">
             <Link href="/">
-                <div className="flex items-center gap-x-2">
+                <div className="flex items-center">
                     <Image src="/logo.png" alt="Logo" height={70} width={70} />
                     <span
                         className={cn("font-extrabold text-3xl mt-2", font.className)}
