@@ -1,0 +1,19 @@
+{
+    "setupCreate": "Create your organization",
+    "setupNewOrg": "New Organization",
+    "setupCreateOrg": "Create Organization",
+    "setupCreateResources": "Create Resources",
+    "setupOrgName": "Organization Name",
+    "orgDisplayName": "This is the display name of your organization.",
+    "orgId": "Organization ID",
+    "goHome": "Go Home",
+    "inviteLogInOtherUser": "Log In as a Different User",
+    "createAnAccount": "Create an Account",
+    "inviteNotAccepted": "Invite Not Accepted",
+    "authCreateAccount": "Create an account to get started",
+    "authNoAccount": "Don't have an account?",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "createAccount": "Create Account"
+}
