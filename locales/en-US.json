@@ -15,5 +15,7 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
-    "createAccount": "Create Account"
+    "createAccount": "Create Account",
+    "dataIn": "Data In",
+    "dataOut": "Data Out"
 }
