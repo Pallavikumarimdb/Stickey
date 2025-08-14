@@ -1,1 +1,27 @@
-{}
+{
+  "setupCreate": "組織を作成する",
+  "setupNewOrg": "新しい組織",
+  "setupCreateOrg": "組織を作成",
+  "setupCreateResources": "リソースを作成する",
+  "setupOrgName": "組織名",
+  "orgDisplayName": "これは組織の表示名です。",
+  "orgId": "組織ID",
+  "goHome": "ホームへ戻る",
+  "authNoAccount": "アカウントをお持ちでない場合？",
+  "email": "メールアドレス",
+  "password": "パスワード",
+  "confirmPassword": "パスワード確認",
+  "createAccount": "アカウント作成",
+  "dataIn": "データ入力",
+  "dataOut": "データ出力",
+  "userTypeExternalDescription": "外部IDプロバイダーを使用してユーザーを作成します。",
+  "accessUserCreateDescription": "新しいユーザーを作成するには、以下の手順に従ってください",
+  "userSeeAll": "全ユーザー表示",
+  "userTypeTitle": "ユーザー種別",
+  "userTypeDescription": "ユーザーの作成方法を決定します",
+  "userSettings": "ユーザー情報",
+  "userSettingsDescription": "新規ユーザーの詳細を入力してください",
+  "inviteEmailSent": "ユーザーに招待メールを送信する",
+  "inviteValid": "有効期間",
+  "selectDuration": "期間を選択"
+}

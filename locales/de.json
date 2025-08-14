@@ -1,1 +1,27 @@
-{}
+{
+  "setupCreate": "Erstelle deine Organisation",
+  "setupNewOrg": "Neue Organisation",
+  "setupCreateOrg": "Organisation erstellen",
+  "setupCreateResources": "Ressourcen erstellen",
+  "setupOrgName": "Organisationsname",
+  "orgDisplayName": "Dies ist der Anzeigename deiner Organisation.",
+  "orgId": "Organisations-ID",
+  "goHome": "Zur Startseite",
+  "authNoAccount": "Noch keinen Account?",
+  "email": "E-Mail",
+  "password": "Passwort",
+  "confirmPassword": "Passwort bestätigen",
+  "createAccount": "Konto erstellen",
+  "dataIn": "Daten Eingang",
+  "dataOut": "Daten Ausgang",
+  "userTypeExternalDescription": "Benutzer mit einem externen Identitätsanbieter erstellen.",
+  "accessUserCreateDescription": "Befolgen Sie die folgenden Schritte, um einen neuen Benutzer zu erstellen",
+  "userSeeAll": "Alle Benutzer anzeigen",
+  "userTypeTitle": "Benutzertyp",
+  "userTypeDescription": "Bestimmen Sie, wie Sie den Benutzer erstellen möchten",
+  "userSettings": "Benutzerinformationen",
+  "userSettingsDescription": "Geben Sie die Daten für den neuen Benutzer ein",
+  "inviteEmailSent": "Einladungs-E-Mail an Benutzer senden",
+  "inviteValid": "Gültig für",
+  "selectDuration": "Dauer auswählen"
+}
